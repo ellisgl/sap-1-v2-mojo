@@ -1,0 +1,59 @@
+NET "clk" TNM_NET = clk;
+TIMESPEC TS_clk = PERIOD "clk" 50 MHz HIGH 50%;
+
+NET "clk"            LOC = P56 | IOSTANDARD = LVTTL;
+
+NET "led<0>"         LOC = P134 | IOSTANDARD = LVTTL;
+NET "led<1>"         LOC = P133 | IOSTANDARD = LVTTL;
+NET "led<2>"         LOC = P132 | IOSTANDARD = LVTTL;
+NET "led<3>"         LOC = P131 | IOSTANDARD = LVTTL;
+NET "led<4>"         LOC = P127 | IOSTANDARD = LVTTL;
+NET "led<5>"         LOC = P126 | IOSTANDARD = LVTTL;
+NET "led<6>"         LOC = P124 | IOSTANDARD = LVTTL;
+NET "led<7>"         LOC = P123 | IOSTANDARD = LVTTL;
+
+NET "DBOUT<0>"       LOC = P51  | IOSTANDARD = LVTTL;
+NET "DBOUT<1>"       LOC = P41  | IOSTANDARD = LVTTL;
+NET "DBOUT<2>"       LOC = P35  | IOSTANDARD = LVTTL;
+NET "DBOUT<3>"       LOC = P33  | IOSTANDARD = LVTTL;
+NET "DBOUT<4>"       LOC = P30  | IOSTANDARD = LVTTL;
+NET "DBOUT<5>"       LOC = P27  | IOSTANDARD = LVTTL;
+NET "DBOUT<6>"       LOC = P24  | IOSTANDARD = LVTTL;
+NET "DBOUT<7>"       LOC = P22  | IOSTANDARD = LVTTL;
+                           
+NET "ABOUT<0>"       LOC = P17  | IOSTANDARD = LVTTL;
+NET "ABOUT<1>"       LOC = P15  | IOSTANDARD = LVTTL;
+NET "ABOUT<2>"       LOC = P12  | IOSTANDARD = LVTTL;
+NET "ABOUT<3>"       LOC = P10  | IOSTANDARD = LVTTL;
+
+NET "extaddr<3>"     LOC = P50  | IOSTANDARD = LVTTL;
+NET "extaddr<2>"     LOC = P40  | IOSTANDARD = LVTTL;
+NET "extaddr<1>"     LOC = P34  | IOSTANDARD = LVTTL;
+NET "extaddr<0>"     LOC = P32  | IOSTANDARD = LVTTL;
+
+NET "extdata<7>"     LOC = P29  | IOSTANDARD = LVTTL;
+NET "extdata<6>"     LOC = P26  | IOSTANDARD = LVTTL;
+NET "extdata<5>"     LOC = P23  | IOSTANDARD = LVTTL;
+NET "extdata<4>"     LOC = P21  | IOSTANDARD = LVTTL;
+NET "extdata<3>"     LOC = P16  | IOSTANDARD = LVTTL;
+NET "extdata<2>"     LOC = P14  | IOSTANDARD = LVTTL;
+NET "extdata<1>"     LOC = P11  | IOSTANDARD = LVTTL;
+NET "extdata<0>"     LOC = P9   | IOSTANDARD = LVTTL;
+
+NET "extrun"         LOC = P7   | IOSTANDARD = LVTTL;
+NET "extload"        LOC = P5   | IOSTANDARD = LVTTL;
+NET "extauto"        LOC = P1   | IOSTANDARD = LVTTL;
+NET "extstep"        LOC = P143 | IOSTANDARD = LVTTL;
+NET "extclear"       LOC = P141 | IOSTANDARD = LVTTL;
+NET "extstart"       LOC = P139 | IOSTANDARD = LVTTL;
+
+NET "an1"            LOC = P92  | IOSTANDARD = LVTTL;
+NET "an0"            LOC = P87  | IOSTANDARD = LVTTL;
+
+NET "ss<2>"          LOC = P57  | IOSTANDARD = LVTTL; //c
+NET "ss<0>"          LOC = P82  | IOSTANDARD = LVTTL; //a
+NET "ss<6>"          LOC = P66  | IOSTANDARD = LVTTL; //g
+NET "ss<3>"          LOC = P74  | IOSTANDARD = LVTTL; //d
+NET "ss<4>"          LOC = P78  | IOSTANDARD = LVTTL; //e
+NET "ss<5>"          LOC = P80  | IOSTANDARD = LVTTL; //f
+NET "ss<1>"          LOC = P84  | IOSTANDARD = LVTTL; //b
