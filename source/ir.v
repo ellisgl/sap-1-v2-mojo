@@ -14,34 +14,50 @@
 * opcode    = OP Code is sent to CU.
 */
 module ir(
-    input         CLK,
-    input         nLi,
-    input         nEi,
-    input         CLR,
-    input   [7:0] DBUS,
-    inout   [3:0] ABUS,
-    output  [3:0] opcode);
+    input            CLK,
+    input            nLi,
+    input            nEi,
+    input            CLR,
+    input      [7:0] DBUS,
+    output reg [3:0] ABUS,
+    output     [3:0] opcode);
   
   // Some registers
   reg    [3:0] OPCODEreg;
   reg    [3:0] ADDRreg;
   
   assign opcode = OPCODEreg;
-  assign ABUS   = (!nEi) ? ADDRreg : 4'bzzzz;
+  
+  initial
+  begin
+    OPCODEreg <= 4'b0000;
+    ADDRreg   <= 4'b0000;
+    ABUS      <= 4'bzzzz;
+  end
   
   always @(posedge CLK or posedge CLR)
   begin
     if(CLR)
       begin
-        OPCODEreg <= 4'b0000;
-        ADDRreg   <= 4'b0000;
-      end
+      OPCODEreg <= 4'b0000;
+      ADDRreg   <= 4'b0000;
+      ABUS      <= 4'bzzzz;
+    end
     else if(!nLi)
       begin
       // Load our data
       //$display("IR LOADING: %b", WBUS);
       OPCODEreg <= DBUS[7:4];
       ADDRreg   <= DBUS[3:0];
+      ABUS      <= 4'bzzzz;
+    end
+    else if(!nEi)
+      begin
+      ABUS <= ADDRreg;
+    end
+    else
+      begin
+      ABUS <= 4'bzzzz;
     end
   end
 endmodule

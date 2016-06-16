@@ -16,7 +16,12 @@ module pc(
   );
   
   reg    [3:0] cnt;
-  
+
+  initial
+  begin
+    cnt <= 4'b0000;
+  end
+    
   assign ABUS = (Ep) ? cnt : 4'bzzzz;
 
   always @(negedge nCLK or negedge nCLR)
@@ -30,11 +35,9 @@ module pc(
       //$display("Incrementing the PC");
       cnt <= (cnt == 4'd15) ? 4'b0 : cnt + 1'b1;
     end
-    else if(Ep)
+    else 
       begin
-    // Output PC to ABUS
-    //$display("Outputting PC: %b", WBUSreg);
+      cnt <= cnt;
     end
   end
-  
 endmodule

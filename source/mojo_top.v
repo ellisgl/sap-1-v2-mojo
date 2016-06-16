@@ -28,34 +28,34 @@ module mojo_top(
   wire        nCLR;
   wire        Cp;
   wire        Ep;
-  wire        nLm;
   wire        nWE;
   wire        nCE;
+  wire        CS;
   wire        nLi;
   wire        nEi;
-  wire [3:0]  opcode;
   wire        nLa;
   wire        Ea;
-  wire [7:0]  alua;
-  wire [7:0]  alub;
   wire        Su;
   wire        Eu;
   wire        nLb;
   wire        nLo;
+  wire [7:0]  alua;
+  wire [7:0]  alub;
   wire        run;
   wire        nHLT;
+  wire [3:0]  opcode;
   wire [7:0]  OBUS;
-  wire [5:0]  state;
-
+  wire [3:0]  state;
+  
   assign led[0] = state[0];
   assign led[1] = state[1];
   assign led[2] = state[2];
   assign led[3] = state[3];
-  assign led[4] = state[4];
-  assign led[5] = state[5];
+  assign led[4] = 1'b0;
+  assign led[5] = 1'b0;
   assign led[6] = 1'b0;
   assign led[7] = CLK;
-  
+
   in IN(
     .clk(clk),
     .extaddr(extaddr),
@@ -70,13 +70,14 @@ module mojo_top(
     .ABUS(ABUS),
     .DBUS(DBUS),
     .nWE(nWE),
+    .CS(CS),
     .CLR(CLR),
     .nCLR(nCLR),
     .CLK(CLK),
     .nCLK(nCLK),
-    .run(run)
+    .run(run)    
   );
-  
+
   cu CU(
     .CLK(CLK),
     .nCLR(nCLR),
@@ -84,9 +85,9 @@ module mojo_top(
     .opcode(opcode),
     .Cp(Cp),
     .Ep(Ep),
-    .nLm(nLm),
     .nWE(nWE),
     .nCE(nCE),
+    .CS(CS),
     .nLi(nLi),
     .nEi(nEi),
     .nLa(nLa),
@@ -98,7 +99,15 @@ module mojo_top(
     .nHLT(nHLT),
     .state(state)
   );
-  
+
+  pc PC(
+    .Cp(Cp),
+    .nCLK(nCLK),
+    .nCLR(nCLR),
+    .Ep(Ep),
+    .ABUS(ABUS)
+  );  
+
   ir IR(
     .CLK(CLK),
     .nLi(nLi),
@@ -108,26 +117,17 @@ module mojo_top(
     .ABUS(ABUS),
     .opcode(opcode)
   );
-  
-  pc PC(
-    .Cp(Cp),
-    .nCLK(nCLK),
-    .nCLR(nCLR),
-    .Ep(Ep),
-    .ABUS(ABUS)
-  );
-  
+
   mem MEM(
-    .CLK(CLK),
     .nWE(nWE),
     .nCE(nCE),
-    .nLm(nLm),
+    .CS(CS),
     .ABUS(ABUS),
     .DBUS(DBUS),
     .ma(ABOUT),
     .md(DBOUT)
   );
-  
+
   accumulator ACCUMULATOR(
     .CLK(CLK),
     .nLa(nLa),
@@ -135,14 +135,14 @@ module mojo_top(
     .DBUS(DBUS),
     .ALU(alua)
   );
-  
+
   regb REGB(
     .CLK(CLK),
     .nLb(nLb),
     .DBUS(DBUS),
     .ALU(alub)
   );
-  
+
   alu ALU(
     .ina(alua),
     .inb(alub),
@@ -150,7 +150,7 @@ module mojo_top(
     .Eu(Eu),
     .DBUS(DBUS)
   );
-  
+
   out OUT(
     .CLK(CLK),
     .CLR(CLR),
@@ -167,4 +167,5 @@ module mojo_top(
     .an0(an0),
     .an1(an1)
   );
+
 endmodule

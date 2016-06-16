@@ -14,11 +14,15 @@ module regb(
   output [7:0] ALU
 );
 
-  reg [7:0] regbreg = 8'b0;
+  reg [7:0] regbreg;
   
+  initial
+  begin
+    regbreg <= 8'b0000_0000;
+  end
+
   assign ALU  = regbreg;
   
-  // Might need to change to negedge
   always @(posedge CLK)
     begin 
       if(!nLb)

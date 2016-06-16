@@ -19,7 +19,12 @@ module out(
   reg [7:0] OBUSreg;
   
   assign OBUS = OBUSreg;
-  
+
+  initial
+  begin
+    OBUSreg <= 8'b0000_0000;
+  end
+
   always @(negedge CLK or posedge CLR)
   begin
     if(CLR)

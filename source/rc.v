@@ -1,47 +1,47 @@
 `timescale 1ns / 1ps
-module rc (CLK, nCLR, state);
+module rc (
+  input            CLK,
+  input            nCLR,
+  output reg [3:0] state
+);
   
-  input        CLK;
-  input        nCLR;
-  output [5:0] state;
-  reg    [5:0] state;
-  
+  initial
+  begin
+    state <= 4'b0000;
+  end
+
   always @(negedge CLK or negedge nCLR)
   begin
     if(!nCLR)
       begin
-      state <= 6'b00_0000;
+      state <= 4'b0000;
     end
     else
       begin
       case(state)
-        6'b00_0000:
+        4'b0000:
         begin
-          state <= 6'b00_0001;
+          state <=4'b0001;
         end
-        6'b000001:
+        4'b0001:
         begin
-          state <= 6'b00_0010;
+          state <= 4'b0010;
         end
-        6'b000010:
+        4'b0010:
         begin
-          state <= 6'b00_0100;
+          state <= 4'b0100;
         end
-        6'b000100:
+        4'b0100:
         begin
-          state <= 6'b00_1000;
+          state <= 4'b1000;
         end
-        6'b001000:
+        4'b1000:
         begin
-          state <= 6'b01_0000;
+          state <= 4'b0001;
         end
-        6'b010000:
+        default:
         begin
-          state <= 6'b10_0000;
-        end
-        6'b100000:
-        begin
-          state <= 6'b00_0001;
+          state <= 4'b0001;
         end
       endcase
     end

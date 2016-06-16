@@ -16,8 +16,6 @@ module alu(
   output [7:0] DBUS
 );
 
-  //wire [7:0] DBUS;
-
   // If Eu is high and Su is high, subtract Register B from Accumulator and output to the DBUS
   // If Eu is high and Su is low, Add Accumulator to Register B and output to the DBUS
   // If Eu is low, then go hi-impededance on the DBUS.
