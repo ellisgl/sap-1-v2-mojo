@@ -32,8 +32,13 @@ module accumulator(
     if(!nLa)
       begin
       // Load from DBUS
+      //$display("%t ACC - Loading: %b", $realtime, DBUS);
       accreg <= DBUS;
     end
+	 else if(Ea)
+	     begin
+			 //$display("%t ACC - OUTPUTTING: %b", $realtime, accreg);
+	   end
     /**
     else
       begin

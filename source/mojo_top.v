@@ -28,6 +28,7 @@ module mojo_top(
   wire        nCLR;
   wire        Cp;
   wire        Ep;
+  //wire        nLm;
   wire        nWE;
   wire        nCE;
   wire        CS;
@@ -45,14 +46,14 @@ module mojo_top(
   wire        nHLT;
   wire [3:0]  opcode;
   wire [7:0]  OBUS;
-  wire [3:0]  state;
+  wire [5:0]  state;
   
   assign led[0] = state[0];
   assign led[1] = state[1];
   assign led[2] = state[2];
   assign led[3] = state[3];
-  assign led[4] = 1'b0;
-  assign led[5] = 1'b0;
+  assign led[4] = state[4];
+  assign led[5] = state[5];
   assign led[6] = 1'b0;
   assign led[7] = CLK;
 
@@ -70,7 +71,7 @@ module mojo_top(
     .ABUS(ABUS),
     .DBUS(DBUS),
     .nWE(nWE),
-    .CS(CS),
+	 .CS(CS),
     .CLR(CLR),
     .nCLR(nCLR),
     .CLK(CLK),
@@ -87,7 +88,8 @@ module mojo_top(
     .Ep(Ep),
     .nWE(nWE),
     .nCE(nCE),
-    .CS(CS),
+	 //.nLm(nLm),
+	 .CS(CS),
     .nLi(nLi),
     .nEi(nEi),
     .nLa(nLa),
@@ -119,9 +121,11 @@ module mojo_top(
   );
 
   mem MEM(
+    //.CLK(CLK),
+    //.nLm(nLm),
     .nWE(nWE),
     .nCE(nCE),
-    .CS(CS),
+	 .CS(CS),
     .ABUS(ABUS),
     .DBUS(DBUS),
     .ma(ABOUT),

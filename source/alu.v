@@ -20,4 +20,12 @@ module alu(
   // If Eu is high and Su is low, Add Accumulator to Register B and output to the DBUS
   // If Eu is low, then go hi-impededance on the DBUS.
   assign DBUS = (Eu) ? ((Su) ? (ina - inb) : (ina + inb)) : 8'bzzzz_zzzz;
+  
+  always @(DBUS or Eu)
+  begin
+	if(Eu)
+	  begin
+		//$display("%t ALU IS OUTPUTING", $realtime);
+	end
+  end
 endmodule

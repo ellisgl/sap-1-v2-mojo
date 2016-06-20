@@ -31,9 +31,9 @@ module cu(
     input      [3:0] opcode,
     output reg       Cp,
     output reg       Ep,
+    output           CS,
     output           nWE,
     output reg       nCE,
-    output           CS,
     output reg       nLi,
     output reg       nEi,
     output reg       nLa,
@@ -43,7 +43,7 @@ module cu(
     output reg       nLb,
     output reg       nLo,
     output reg       nHLT,
-    output     [3:0] state);
+    output     [5:0] state);
 
   // Ring Counter
   rc RC(
@@ -57,19 +57,22 @@ module cu(
   parameter T2    = 6'b000010;
   parameter T3    = 6'b000100;
   parameter T4    = 6'b001000;
-  
-  reg CSreg;
+  parameter T5    = 6'b010000;
+  parameter T6    = 6'b100000;
 
+  reg CSreg;
+  
   // Assign some of our signals out of the door.
   assign    nWE   = (!run) ? 1'bz : 1'b1;
   assign    CS    = (!run) ? 1'bz : CSreg;
-
+  
   initial
   begin
     Cp    <= 0;
     Ep    <= 0;
     nLb   <= 1;
     nCE   <= 1;
+    //nLm   <= 1;
     CSreg <= 0;
     nLi   <= 1;
     nEi   <= 1;
@@ -86,7 +89,7 @@ module cu(
     if(!nCLR)
       begin
       // Reset out values
-      //$display("CU RESET");
+      //$display("%t CU RESET", $realtime);
       Cp    <= 0;
       Ep    <= 0;
       nLb   <= 1;
@@ -104,12 +107,12 @@ module cu(
     else if(!run)
       begin
       // Program mode
-      //$display("CU IN PROGRAM MODE");
+      //$display("%t CU IN PROGRAM MODE", $realtime);
       Cp    <= 0;
       Ep    <= 0;
       nLb   <= 1;
       nCE   <= 1;
-      CSreg <= 0;      
+      CSreg <= 0;
       nLi   <= 1;
       nEi   <= 1;
       Ea    <= 0;
@@ -126,86 +129,111 @@ module cu(
       case (state)
         T1:
         begin
+		       // Ouput the PC, pull data from memory and store in IR.
           // Clear previous signals
+          Cp    <= 0;
+          nLb   <= 1;
+          nEi   <= 1;
+          Ea    <= 0;
+          nLa   <= 1;
+          Su    <= 0;
+          Eu    <= 0;
+          nLo   <= 1;
+          nHLT  <= 1;			 
+			 
           // Set
           Ep    <= 1;
+          //nLm   <= 0;
           nCE   <= 0;
-          CSreg <= 1;
           nLi   <= 0;
+          CSreg <= 1;
+          //$display("%t CU T1: EP=1, nCE=0, nLi=0", $realtime);
         end
+		  
         T2:
         begin
           // Clear previous signals
           Ep    <= 0;
+          //nLm   <= 1;
           nCE   <= 1;
           CSreg <= 0;
           nLi   <= 1;
-          
           // Set
-          Cp    <= 1;
+          //$display("%t CU T2", $realtime);
         end
         T3:
         begin
-          // Clear previous signals
-          Cp    <= 0;
-          
+          // Set
+          Cp    <= 1;
+			 
           case(opcode)
             4'b0000:
             begin
-              // LDA (Load from mem to Accumulator)
-              nEi   <= 0;
+              // LDA (Output from mem based on IR address)
               nCE   <= 0;
-              CSreg <= 1;
+              //CSreg <= 1;
+              nEi   <= 0;
               nLa   <= 0;
+              //$display("%t CU T3: LDA - nEi = 0, nCE = 0, nLa = 0", $realtime);
             end
             
             4'b0001:
             begin
-              // ADD  (Load from mem to Register B)
-              nEi   <= 0;
+              // ADD  (Output from mem based on IR address)
               nCE   <= 0;
-              CSreg <= 1;
+              //CSreg <= 1;
+              nEi   <= 0;
               nLb   <= 0;
+              //$display("%t CU T3: ADD - nEi = 0, nCE = 0, nLb = 0", $realtime);
             end
             
             4'b0010:
             begin
-              // SUB (Load from mem to Register B)
-              nEi   <= 0;
+              // SUB (Output from mem based on IR address)
               nCE   <= 0;
-              CSreg <= 1;
+              //CSreg <= 1;
+              nEi   <= 0;
               nLb   <= 0;
+              //$display("%t CU T3: SUB - nEi = 0, nCE = 0, nLb = 0", $realtime);
             end
             4'b1110:
             begin
               // OUT (Output data from Accumulator)
               Ea  <= 1;
               nLo <= 0;
+              //$display("%t CU T3: OUT - Ea = 1, nLo = 0", $realtime);
             end
             4'b1111:
             begin
               // HTL (Stop this crazy thing!)
               nHLT <= 0;
+              //$display("%t CU T3: HLT - nHLT = 0", $realtime);
             end
             default:
             begin
+              //$display("%t CU T3: Unknow OPCODE", $realtime);
             end
           endcase
         end
+		  
         T4:
         begin
           // Clear previous signals
-          nEi <= 1;
-          nCE <= 1;
-          nLa <= 1;
-          nLb <= 1;
-          Ea  <= 0;
-          nLo <= 1;
-          
+          nEi   <= 1;
+          nCE   <= 1;
+          //nLm   <= 1;
+          CSreg <= 0;
+          nLa   <= 1;
+          nLb   <= 1;
+          Ea    <= 0;
+          nLo   <= 1;
+          Cp    <= 0;
+
           case(opcode)
             4'b0000:
             begin
-            // LDA
+              // LDA
+              //$display("%t CU T4: LDA", $realtime);
             end
             
             4'b0001:
@@ -213,6 +241,7 @@ module cu(
               // ADD  (Load from ALU to Accumlator)
               Eu  <= 1;
               nLa <= 0;
+              //$display("%t CU T4: ADD - Eu = 1, nLa = 0", $realtime);
             end
             
             4'b0010:
@@ -221,14 +250,17 @@ module cu(
               Eu  <= 1;
               Su  <= 1;
               nLa <= 0;
+              //$display("%t CU T4: SUB - Eu = 1, Su = 1, nLa = 0", $realtime);
             end
             4'b1110:
             begin
               // OUT
+              //$display("%t CU T4: OUT", $realtime);
             end
             4'b1111:
             begin
-              // HTL
+              // HLT
+              //$display("%t CU T4: HLT - Eu = 1, nLa = 0", $realtime);
             end
             default:
             begin
@@ -245,6 +277,7 @@ module cu(
               Eu    <= 0;
               nLo   <= 1;
               nHLT  <= 1;
+              //$display("%t CU T4: Unknown OPCODE - Reset", $realtime);
             end
           endcase
         end
@@ -264,6 +297,7 @@ module cu(
           Eu    <= 0;
           nLo   <= 1;
           nHLT  <= 1;
+			    //$display("%t CU: Unknown State - RESET", $realtime);
         end
       endcase
     end
@@ -282,6 +316,7 @@ module cu(
       Eu    <= 0;
       nLo   <= 1;
       nHLT  <= 1;
+      //$display("%t CU: Unknown Input state - RESET", $realtime);
     end
   end
 endmodule

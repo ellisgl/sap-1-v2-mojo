@@ -7,12 +7,12 @@ module sevseg(
     output       an1
   );
   
-  reg        sclk;
+  //reg        sclk;
   reg [12:0] sscnt;
   reg [6:0]  ssreg;
   reg [3:0]  sstmp;
   reg        aclk;
-  reg [7:0]  ncnt;
+  //reg [7:0]  ncnt;
   reg [3:0]  stmp;
   
   assign ss        = ssreg;
@@ -21,12 +21,12 @@ module sevseg(
   
   initial
   begin
-    sclk  <= 1'b0;
+    //sclk  <= 1'b0;
     sscnt <= 16'b0;
     ssreg <= 7'b0111111;
     sstmp <= 4'b0;
     aclk  <= 1'b0;
-    ncnt  <= 1'b0;
+    //ncnt  <= 1'b0;
     stmp  <= 1'b0;
   end
   
@@ -34,12 +34,12 @@ module sevseg(
   begin
     if (CLR)
       begin
-      sclk  <= 1'b0;
+      //sclk  <= 1'b0;
       sscnt <= 16'b0;
       ssreg <= 7'b0111111;
       sstmp <= 4'b0;
       aclk  <= 1'b0;
-      ncnt  <= 1'b0;
+      //ncnt  <= 1'b0;
       stmp  <= 1'b0;
     end
     else
@@ -47,7 +47,7 @@ module sevseg(
       // 1KHz clocking for the 7 segement display selection (an0 and an1).
       if(sscnt == 4999)
         begin
-        sstmp <= (aclk) ? {OBUS[7], OBUS[6], OBUS[5], OBUS[4]} : {OBUS[3], OBUS[2], OBUS[1], OBUS[0]};
+        sstmp <= (aclk) ? {OBUS[3], OBUS[2], OBUS[1], OBUS[0]} : {OBUS[7], OBUS[6], OBUS[5], OBUS[4]};
         
         case(sstmp)
           4'h0:

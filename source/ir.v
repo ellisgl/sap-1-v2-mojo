@@ -35,18 +35,19 @@ module ir(
     ABUS      <= 4'bzzzz;
   end
   
-  always @(posedge CLK or posedge CLR)
+  always @(CLR or nLi or nEi or DBUS)
   begin
     if(CLR)
       begin
       OPCODEreg <= 4'b0000;
       ADDRreg   <= 4'b0000;
       ABUS      <= 4'bzzzz;
+      //$display("%t IR: CLR - RESET", $realtime);
     end
     else if(!nLi)
       begin
       // Load our data
-      //$display("IR LOADING: %b", WBUS);
+      //$display("%t IR LOADING: %b", $realtime, DBUS);
       OPCODEreg <= DBUS[7:4];
       ADDRreg   <= DBUS[3:0];
       ABUS      <= 4'bzzzz;
@@ -57,7 +58,10 @@ module ir(
     end
     else
       begin
-      ABUS <= 4'bzzzz;
+        // Stop the latch warnings.
+        OPCODEreg <= OPCODEreg;
+        ADDRreg   <= ADDRreg;
+        ABUS      <= 4'bzzzz;
     end
   end
 endmodule

@@ -2,46 +2,51 @@
 module rc (
   input            CLK,
   input            nCLR,
-  output reg [3:0] state
+  output reg [5:0] state
 );
   
   initial
   begin
-    state <= 4'b0000;
+    state <= 6'b00000;
   end
 
   always @(negedge CLK or negedge nCLR)
   begin
     if(!nCLR)
       begin
-      state <= 4'b0000;
+      state <= 6'b000000;
     end
     else
       begin
       case(state)
-        4'b0000:
+		  6'b00000:
+		  begin
+		    state <= 6'b000001;
+		  end
+        6'b00001:
         begin
-          state <=4'b0001;
+          state <= 6'b000010;
         end
-        4'b0001:
+        6'b000010:
         begin
-          state <= 4'b0010;
+          state <= 6'b000100;
         end
-        4'b0010:
+        6'b000100:
         begin
-          state <= 4'b0100;
+          state <= 6'b001000;
         end
-        4'b0100:
+        6'b001000:
         begin
-          state <= 4'b1000;
+          //state <= 6'b010000;
+          state <= 6'b000001;
         end
-        4'b1000:
-        begin
-          state <= 4'b0001;
-        end
+		  6'b010000:
+		  begin
+		    state <= 6'b000001;
+		  end
         default:
         begin
-          state <= 4'b0001;
+          state <= 6'b000000;
         end
       endcase
     end

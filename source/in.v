@@ -13,7 +13,7 @@ module in (
     inout [3:0] ABUS,
     inout [7:0] DBUS,
     output       nWE,
-    output       CS,
+	 output       CS,
     output       CLR,
     output       nCLR,
     output       CLK,

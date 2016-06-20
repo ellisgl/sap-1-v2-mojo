@@ -28,6 +28,7 @@ module regb(
       if(!nLb)
         begin
           // Load Reg B from DBUS
+          //$display("%t REGB Loading: %d", $realtime, DBUS);
           regbreg <= DBUS;
         end
     end

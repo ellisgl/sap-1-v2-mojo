@@ -32,9 +32,13 @@ module pc(
       end  
     else if(Cp)
       begin
-      //$display("Incrementing the PC");
+      //$display("%t Incrementing the PC", $realtime);
       cnt <= (cnt == 4'd15) ? 4'b0 : cnt + 1'b1;
     end
+	 else if(Ep)
+	   begin
+		  //$display("%t Ouputting the PC", $realtime);
+		end
     else 
       begin
       cnt <= cnt;
