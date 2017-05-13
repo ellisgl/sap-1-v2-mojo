@@ -1,3 +1,7 @@
+/**
+ * Input from external buttons and switches
+ */
+ 
 `timescale 1ns / 1ps
 module in (
     input        clk,
