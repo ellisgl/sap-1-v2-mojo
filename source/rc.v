@@ -1,3 +1,7 @@
+/**
+ * Ring counter
+ * Generates the T-States for the Control Unit (CU)
+ */
 `timescale 1ns / 1ps
 module rc (
   input            CLK,
