@@ -13,7 +13,7 @@ module pc(
     input        nCLR,
     input        Ep,
     output [3:0] ABUS
-  );
+);
   
     reg    [3:0] cnt;
 
