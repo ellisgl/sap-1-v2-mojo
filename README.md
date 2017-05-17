@@ -23,7 +23,7 @@ Binary | Mnemonic | Meaning
 0000 | LDA | Load data from memory into the Accumulator (Register A)
 0001 | ADD | Load data from memory into Register B and perform addition of Accumulator and Register B and output on bus
 0010 | SUB | Load data from memory into Register B and perform substract of Register B from Accumulator and output on bus 
-1110 | OUT | Load data from BUS to Output do be displayed 'phyically'
+1110 | OUT | Load data from BUS to Output do be displayed 'physically'
 1111 | HLT | Stop the running of the program.
 
 ## Sample Program
