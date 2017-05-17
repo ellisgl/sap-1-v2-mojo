@@ -20,48 +20,49 @@ module ir(
     input            CLR,
     input      [7:0] DBUS,
     output reg [3:0] ABUS,
-    output     [3:0] opcode);
+    output     [3:0] opcode
+);
   
-  // Some registers
-  reg    [3:0] OPCODEreg;
-  reg    [3:0] ADDRreg;
-  
-  assign opcode = OPCODEreg;
-  
-  initial
-  begin
-    OPCODEreg <= 4'b0000;
-    ADDRreg   <= 4'b0000;
-    ABUS      <= 4'bzzzz;
-  end
-  
-  always @(CLR or nLi or nEi or DBUS)
-  begin
-    if(CLR)
-      begin
+    // Some registers
+    reg    [3:0] OPCODEreg;
+    reg    [3:0] ADDRreg;
+    
+    assign opcode = OPCODEreg;
+    
+    initial
+    begin
       OPCODEreg <= 4'b0000;
       ADDRreg   <= 4'b0000;
       ABUS      <= 4'bzzzz;
-      //$display("%t IR: CLR - RESET", $realtime);
     end
-    else if(!nLi)
-      begin
-      // Load our data
-      //$display("%t IR LOADING: %b", $realtime, DBUS);
-      OPCODEreg <= DBUS[7:4];
-      ADDRreg   <= DBUS[3:0];
-      ABUS      <= 4'bzzzz;
+    
+    always @(CLR or nLi or nEi or DBUS)
+    begin
+        if(CLR)
+        begin
+            OPCODEreg <= 4'b0000;
+            ADDRreg   <= 4'b0000;
+            ABUS      <= 4'bzzzz;
+            //$display("%t IR: CLR - RESET", $realtime);
+        end
+        else if(!nLi)
+        begin
+            // Load our data
+            //$display("%t IR LOADING: %b", $realtime, DBUS);
+            OPCODEreg <= DBUS[7:4];
+            ADDRreg   <= DBUS[3:0];
+            ABUS      <= 4'bzzzz;
+        end
+        else if(!nEi)
+        begin
+            ABUS <= ADDRreg;
+        end
+        else
+        begin
+            // Stop the latch warnings.
+            OPCODEreg <= OPCODEreg;
+            ADDRreg   <= ADDRreg;
+            ABUS      <= 4'bzzzz;
+        end
     end
-    else if(!nEi)
-      begin
-      ABUS <= ADDRreg;
-    end
-    else
-      begin
-        // Stop the latch warnings.
-        OPCODEreg <= OPCODEreg;
-        ADDRreg   <= ADDRreg;
-        ABUS      <= 4'bzzzz;
-    end
-  end
 endmodule

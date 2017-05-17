@@ -17,29 +17,29 @@ module in (
     inout [3:0] ABUS,
     inout [7:0] DBUS,
     output       nWE,
-     output       CS,
+    output       CS,
     output       CLR,
     output       nCLR,
     output       CLK,
     output       nCLK,
     output       run  
-  );
+);
   
-    reg         creg   = 1'b0;
-    reg  [24:0] ccnt   = 25'd0;
-    reg         start  = 1'b0;
-    reg         sprev  = 1'b0;
+    reg         creg             = 1'b0;
+    reg  [24:0] ccnt             = 25'd0;
+    reg         start            = 1'b0;
+    reg         sprev            = 1'b0;
     
     debounce stepclean (clk, extstep,  step);
     debounce startclean(clk, extstart, startc);
     
-    assign      load         = extload;
-    assign      CLR          = extclear;
-    assign      nCLR         = ~extclear;
-    assign      run          = extrun;
-    assign      auto         = extauto;
-    assign      CLK          = (run && !auto) ? step : (run && auto) ? creg :  1'b0;
-    assign      nCLK         = ~CLK;
+    assign load                  = extload;
+    assign CLR                   = extclear;
+    assign nCLR                  = ~extclear;
+    assign run                   = extrun;
+    assign auto                  = extauto;
+    assign CLK                   = (run && !auto) ? step : (run && auto) ? creg :  1'b0;
+    assign nCLK                  = ~CLK;
     assign {ABUS, DBUS, nWE, CS} = (!run) ? {extaddr, extdata, ~load, load} : {4'bzzzz, 8'bzzzz_zzzz, 1'bz, 1'bz};
     
     // Clock generator and stuff
@@ -71,9 +71,9 @@ module in (
                 begin
                     // Stop the spamming of start
                     if(!sprev)
-                      begin
-                      sprev <= 1'b1;
-                      start <= ~start;
+                    begin
+                        sprev <= 1'b1;
+                        start <= ~start;
                     end
                 end
                 else
