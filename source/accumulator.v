@@ -15,7 +15,7 @@ module accumulator(
     input        Ea,
     inout  [7:0] DBUS,
     output [7:0] ALU
-  );
+);
   
     reg  [7:0] accreg;
     

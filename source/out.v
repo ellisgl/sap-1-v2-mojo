@@ -14,7 +14,7 @@ module out(
     input        nLo,
     input  [7:0] DBUS,
     output [7:0] OBUS
-  );
+);
   
   reg [7:0] OBUSreg;
   

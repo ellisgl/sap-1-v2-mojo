@@ -5,7 +5,7 @@ module sevseg(
     output [6:0] ss,
     output       an0,
     output       an1
-  );
+);
   
     //reg        sclk;
     reg [12:0] sscnt;

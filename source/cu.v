@@ -43,7 +43,8 @@ module cu(
     output reg       nLb,
     output reg       nLo,
     output reg       nHLT,
-    output     [5:0] state);
+    output     [5:0] state
+);
 
     // Ring Counter (rc.v)
     rc RC(
