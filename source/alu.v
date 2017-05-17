@@ -23,9 +23,9 @@ module alu(
   
   always @(DBUS or Eu)
   begin
-	if(Eu)
-	  begin
-		//$display("%t ALU IS OUTPUTING", $realtime);
-	end
+    if(Eu)
+    begin
+        //$display("%t ALU IS OUTPUTING", $realtime);
+    end
   end
 endmodule

@@ -14,22 +14,22 @@ module regb(
   output [7:0] ALU
 );
 
-  reg [7:0] regbreg;
+    reg [7:0] regbreg;
   
-  initial
-  begin
-    regbreg <= 8'b0000_0000;
-  end
+    initial
+    begin
+        regbreg <= 8'b0000_0000;
+    end
 
-  assign ALU  = regbreg;
+    assign ALU  = regbreg;
   
-  always @(posedge CLK)
+    always @(posedge CLK)
     begin 
-      if(!nLb)
+        if(!nLb)
         begin
-          // Load Reg B from DBUS
-          //$display("%t REGB Loading: %d", $realtime, DBUS);
-          regbreg <= DBUS;
+            // Load Reg B from DBUS
+            //$display("%t REGB Loading: %d", $realtime, DBUS);
+            regbreg <= DBUS;
         end
     end
 endmodule

@@ -15,33 +15,33 @@ module pc(
     output [3:0] ABUS
   );
   
-  reg    [3:0] cnt;
+    reg    [3:0] cnt;
 
-  initial
-  begin
-    cnt <= 4'b0000;
-  end
+    initial
+    begin
+      cnt <= 4'b0000;
+    end
+      
+    assign ABUS = (Ep) ? cnt : 4'bzzzz;
     
-  assign ABUS = (Ep) ? cnt : 4'bzzzz;
-
-  always @(negedge nCLK or negedge nCLR)
-  begin
-    if(!nCLR)
-      begin
-        cnt <= 4'b0000;
-      end  
-    else if(Cp)
-      begin
-      //$display("%t Incrementing the PC", $realtime);
-      cnt <= (cnt == 4'd15) ? 4'b0 : cnt + 1'b1;
+    always @(negedge nCLK or negedge nCLR)
+    begin
+        if(!nCLR)
+        begin
+            cnt <= 4'b0000;
+        end  
+        else if(Cp)
+        begin
+            //$display("%t Incrementing the PC", $realtime);
+            cnt <= (cnt == 4'd15) ? 4'b0 : cnt + 1'b1;
+        end
+        else if(Ep)
+        begin
+            //$display("%t Ouputting the PC", $realtime);
+        end
+        else 
+        begin
+            cnt <= cnt;
+        end
     end
-	 else if(Ep)
-	   begin
-		  //$display("%t Ouputting the PC", $realtime);
-		end
-    else 
-      begin
-      cnt <= cnt;
-    end
-  end
 endmodule
