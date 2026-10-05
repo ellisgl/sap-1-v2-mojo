@@ -1,5 +1,5 @@
 # sap-1-v2-mojo
-SAP-1 CPU in Verilog for the Mojo FPGA board - has separate address bus, so the WBUS is split up for simplicity. This reduces from a 6 t-state setup to a 4 t-state setup.
+A slightly improved SAP-1 CPU in Verilog targeted to the Mojo FPGA board. It has separate address bus, so the WBUS is split up for simplicity. This reduces from a 6 t-state setup to a 4 t-state setup.
 
 ## Overview
 * 8-bit CPU
